@@ -35,7 +35,7 @@ db.catalog = require('./catalog.model.js')(sequelize, Sequelize);
 db.user.hasMany(db.order);
 db.order.belongsTo(db.user);
 
-db.user.hasMany(db.catalog);
+db.user.hasOne(db.catalog);
 db.catalog.belongsTo(db.user);
 
 db.order.belongsToMany(db.product, { through: 'order_product' });

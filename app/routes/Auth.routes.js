@@ -1,6 +1,6 @@
 const API_CONTEXT = process.env.API_CONTEXT || '/api';
 const controller = require("../controllers/auth.controller");
-// const { verifySignUp, authJWT } = require("../middleware");
+const { verifySignUp } = require("../middleware");
 
 module.exports = function (app) {
     app.use(function (req, res, next) {
@@ -14,7 +14,7 @@ module.exports = function (app) {
     app.post(
         API_CONTEXT + "/auth/register",
         [
-            // verifySignUp.checkDuplicateUsername,
+            verifySignUp.checkDuplicateUsername,
             // verifySignUp.checkDuplicateEmail,
             // verifySignUp.checkDuplicatePhone
         ],
