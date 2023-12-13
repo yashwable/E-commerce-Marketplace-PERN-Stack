@@ -59,26 +59,28 @@ exports.getOrders = async (req, res) => {
     try {
         const userId = req.userId;
 
-        Order.findAll({
+        const orders = await Order.findAll({
             where: {
                 sellerId: userId
             }
-        }).then((orders) => {
+        });
 
-            if (!orders) {
-                return res.status(404).send({ success: false, message: `Orders not found.` });
-            }
+        if (!orders) {
+            return res.status(404).send({ success: false, message: `No orders found.` });
+        }
 
-            // const order_product = orders.map((order) => {
-            //     return order.getProduts();
-            // });
-            return res.status(200).send({
-                success: true,
-                message: "Orders of buyer",
-                data: orders
-            })
-        }).catch((err) => {
-            res.status(400).send({ error: err });
+        // console.log("orders", orders);
+        // console.log("typeof order", typeof orders);
+
+        const ordersWithProducts = await Promise.all(orders.map(async (order) => {
+            const products = await order.getProducts();
+            return { ...order.toJSON(), products };
+        }));
+
+        return res.status(200).send({
+            success: true,
+            message: "Orders fetched successfully",
+            data: ordersWithProducts
         });
     } catch (error) {
         console.log("error in buyer.controller.js :: getOrders() =>", error);
