@@ -16,4 +16,11 @@ module.exports = function (app) {
         [authJWT.verifyToken],
         controller.createCatalog
     );
+
+    app.get(
+        API_CONTEXT + "/seller/orders",
+        [authJWT.verifyToken],
+        controller.getOrders
+    );
+
 };

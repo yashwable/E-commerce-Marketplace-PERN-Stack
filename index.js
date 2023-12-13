@@ -7,7 +7,7 @@ app.use(express.json());
 
 const db = require('./app/models');
 
-db.sequelize.sync({ alter: true }).then(() => {
+db.sequelize.sync().then(() => {
     console.log('Drop and Resync Db');
 });
 

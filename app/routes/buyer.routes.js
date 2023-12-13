@@ -1,5 +1,6 @@
 const API_CONTEXT = process.env.API_CONTEXT || '/api';
 const controller = require("../controllers/buyer.controller");
+const authJWT = require("../middleware/authJWT");
 
 module.exports = function (app) {
     app.use(function (req, res, next) {
@@ -10,6 +11,12 @@ module.exports = function (app) {
         next();
     });
 
+    app.post(
+        API_CONTEXT + "/buyer/create-order/:seller_id",
+        [authJWT.verifyToken],
+        controller.createOrder
+    );
+
     app.get(
         API_CONTEXT + "/buyer/list-of-sellers",
         controller.listOfSellers
@@ -19,4 +26,5 @@ module.exports = function (app) {
         API_CONTEXT + "/buyer/seller-catalog/:seller_id",
         controller.getCatalog
     );
+
 };
