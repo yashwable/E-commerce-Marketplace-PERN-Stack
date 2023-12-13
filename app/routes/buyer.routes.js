@@ -14,4 +14,9 @@ module.exports = function (app) {
         API_CONTEXT + "/buyer/list-of-sellers",
         controller.listOfSellers
     );
+
+    app.get(
+        API_CONTEXT + "/buyer/seller-catalog/:seller_id",
+        controller.getCatalog
+    );
 };
